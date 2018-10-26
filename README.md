@@ -6,14 +6,6 @@
 
 ___
 <i style=float:right;>Donnerstag, 20. Sep</i>
-
-![Programmierparadigmen](img/programmierparadigmen.JPG "Programmierparadigmen")
-
-Typisch für imperative Paradigmen:  
-
-* man gibt sequenzielle Anweisungen (imperativ -> befehlen)  
-* es gibt verschiedene kontrollflussstrukturen
-
 ### Kontrollfragen 1
 
 1. Charakterisieren Sie in eigenen Worten, wie imperative Programmierung funktioniert. Aus welchen Grundelementen sind imperative Programme aufgebaut? Wie werden derartige Programme ausgeführt, wie verläuft der Kontrollfluss?
@@ -48,20 +40,6 @@ ___
 
 ___
  <i style=float:right;>Donnerstag, 27. Sep</i>
-
-### Prolog
-
-PROgrammation en LOGique
-
-
-#### Funktionsweise von Prolog
-
-Wissensdatenbank:
-
-* Bestehend aus Fakten & Regeln
-* Kann abgefragt werden durch Anfragen (Queries)
-
-![Programmierparadigmen](img/prologwissensdatenbank.JPG "Programmierparadigmen")
 
 
 1. Wie antwortet das Prolog-System in unserem Beispiel auf die Anfrage is_bigger(elephant, fly)?
@@ -325,11 +303,6 @@ http_get(+URL,-Reply,+Options).
 
 ___
  <i style=float:right;>Donnerstag, 18. Okt</i>
-
-### Scheme
-
-Einleitung zeugs
-
 
 ### Kontrollfragen
 
