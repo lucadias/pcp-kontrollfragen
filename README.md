@@ -6,6 +6,14 @@
 
 ___
 <i style=float:right;>Donnerstag, 20. Sep</i>
+
+![Programmierparadigmen](img/programmierparadigmen.JPG "Programmierparadigmen")
+
+Typisch für imperative Paradigmen:  
+
+* man gibt sequenzielle Anweisungen (imperativ -> befehlen)  
+* es gibt verschiedene kontrollflussstrukturen
+
 ### Kontrollfragen 1
 
 1. Charakterisieren Sie in eigenen Worten, wie imperative Programmierung funktioniert. Aus welchen Grundelementen sind imperative Programme aufgebaut? Wie werden derartige Programme ausgeführt, wie verläuft der Kontrollfluss?
@@ -40,6 +48,20 @@ ___
 
 ___
  <i style=float:right;>Donnerstag, 27. Sep</i>
+
+### Prolog
+
+PROgrammation en LOGique
+
+
+#### Funktionsweise von Prolog
+
+Wissensdatenbank:
+
+* Bestehend aus Fakten & Regeln
+* Kann abgefragt werden durch Anfragen (Queries)
+
+![Programmierparadigmen](img/prologwissensdatenbank.JPG "Programmierparadigmen")
 
 
 1. Wie antwortet das Prolog-System in unserem Beispiel auf die Anfrage is_bigger(elephant, fly)?
@@ -304,6 +326,11 @@ http_get(+URL,-Reply,+Options).
 ___
  <i style=float:right;>Donnerstag, 18. Okt</i>
 
+### Scheme
+
+Einleitung zeugs
+
+
 ### Kontrollfragen
 
 1. Was ergibt (- 20 5 2) und (/ 20 5 2)?
@@ -561,3 +588,142 @@ ___
     ```scheme
     (filter <function> <list>)
     ```
+
+
+## Notes SW 7.1
+
+___
+ <i style=float:right;>Freitag, 2. Nov</i>
+
+
+__Wichtig Lambda teil der Endprüfung__
+
+### Scheme 5
+
+#### Kontrollfragen 1
+
+1. Wann besteht Bedarf lokale Definitionen anzuwenden? 
+    * bei akkumulativen Rekursionen sind zum Beispiel Hilffunktionen wertvoll welcher nur in dem Scope definiert sein müssen
+    * alle nameaufgebraucht hat, oder bei vielen funktionen
+    * namenskonflikte aus dem weg gehen
+2. Wie viele Definitionen sind innerhalb einem lokal-Block möglich?
+    * beliebig viele , zu viele locals
+3. Was bedeutet lexikalisches Scoping?
+    *
+4. Welche Bereiche bei der Namensbindung sind Ihnen in Scheme bekannt?
+    *  3 bereiche
+    * top level
+    * funktion mit dem funktionsparameter
+    * local definition, lokale definition innerhalb einer funktion
+
+
+#### Kontrollfragen 2
+1. Die Auswertung eines λ-Ausdrucks liefert eine Funktion mit entsprechender Parameterzahl. Was heisst das?
+    * das gleiche mit einer vordefinierten Funktion die einen namen hat,
+
+2. Wann ist der Einsatz eines λ-Ausdrucks sinnvoll?
+    * macht nur sinn wenn ich sie nur 1 mal brauche, oder ich sie nur lokal definieren muss
+    * 1mal wiederverwendebar
+
+3. Weshalb können anonyme Funktionen nicht rekursiv sein?
+    * weil sie anonym sind
+
+
+
+## Notes SW 7.2
+
+___
+ <i style=float:right;>Freitag, 2. Nov</i>
+
+
+### Scheme 6
+
+Wichtige Eigenschaften von Funktionen 
+* Egal, wie oft wir eine Funktion mit ein und derselben Eingabe benutzen, wir bekommen immer das gleiche Ergebnis
+* An jeder Stelle eines Programms können wir einen Funktionsaufruf durch seine Definition oder seinen Wert ersetzen, ohne den Sinn des Programms zu verändern – Wir können (+ 3 5) durch 8 ersetzen 
+    * Wir können (map succ (list 3 5)) durch ((lambda (f alist) ... ) succ (list 3 5)) ersetzen, wobei ... die Definition von map und succ eine Funktionsdefinition ist
+    * Wir können (map succ (list 3 5)) durch (list 4 6) ersetzen, wenn succ die Definition von Parameter + 1 ist
+* Diese Eigenschaft wird referentielle Transparenz genannt
+* Dieser Programmierstil wird als rein funktional bezeichnet
+
+#### Kontrollfragen 1
+
+1. Kennen Sie einen Begriff, der das Verhalten einer «Funktion mit Gedächtnis» umschreibt?
+    * Seiteneffekt
+    * Nebeneffekt
+2. Wie würden Sie die Zuweisung set! in der funktionalen Programmierung einordnen?
+    * 
+3. Wie wurde die Sequenz bisher, ohne die begin-Anweisung, in Scheme umgesetzt?
+    * 
+4. Was ist der Unterschied zwischen der Abarbeitung einerSequenz und der Abarbeitung aus der Antwort der Frage 3?
+    * aufwertungsreihenfolge ist relewant
+
+
+
+## Notes SW 8.1
+
+___
+ <i style=float:right;>Donnerstag, 8. Nov</i>
+
+
+ ### Java
+
+Worin unterscheiden sich abstrakte Klassen von Interfaces und Abstrakten klassen?
+
+
+#### Kontrollfragen 1
+
+1. Wie sieht ein Lambda-Ausdruck aus, welcher zwei float-Argumente nimmt, und den grösseren von den beiden Werten zurückliefert?
+```java
+(a,b) -> return (a > b) ? a : b
+```
+2. Wie sieht ein Lambda-Ausdrück aus, welcher ein Argumente vom Referenztyp Item nimmt, dann auf dieser Instanz die Methoden check() und setId(77) aufruft und nichts zurückliefert?
+```java
+(Item c) -> {c.check(); c.setId(77);}
+```
+
+#### Kontrollfragen 2
+
+1. Geben Sie die Code-Zeile an, welche die InstanzMethode String toUpperCase() der Klasse String als Methoden-Referenz einer Variable x zuweist. Von welchem Typ eines funktionalen Interfaces aus java.util.function muss x deklariert werden?
+```java
+UnaryOperator<String> x = String::toUpperCase;
+```
+
+2. Dieselbe Aufgabe wie bei 1., dieses mal sollen sie jedoch die Instanz-Methode boolean isEmpty() der Klasse String einer Variablen y vom passenden Typ (= welchem?) zuweisen.
+```java
+Predicate<String> y = String::isEmpty;
+```
+
+3. Welcher Typ aus java.util.function passt für eine Referenz auf eine Methode, welche als Argumente zwei Strings nimmt und einen boolean–Wert zurückliefert?
+```java
+ BiPRedicate<String, String>
+ ```
+
+ #### Kontrollfragen 3
+
+ 1. Welchem funktionalen Interface aus java.util.function liesse sich rein formal der folgende Lambda-Ausdruck aus dem Listener-Beispiel von oben auch zuweisen? e -> System.out.println(“Detected by ...”)  
+```java
+Consumer<ActionEvent>
+```
+
+2. Wie können Sie mit Hilfe der gezeigten neuen Methode
+Iterable.forEach(...) auf einer Collection<Account> auf
+jeder Account-Instanz die Methode check() aufrufen?
+Geben Sie die entsprechende Code-Sequenz an. 
+```java
+accounts.forEach(b -> b.check())
+```
+
+3. Was ist Typ und Wert von x im Code-Beispiel auf der vorangehenden Folie? (Hinweis: Streams und Aggregate-Operations behandeln wir nächstes mal! -
+Sie können bei dieser Aufgabe also einfach raten oder
+kreativ überlegen, was für ein Typ und Wert für x Sinn
+machen könnte. :-)
+```java
+Optional<String>
+```
+
+## Notes SW 8.2
+
+___
+ <i style=float:right;>Freitag, 9. Nov</i>
+
