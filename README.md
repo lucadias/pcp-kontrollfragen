@@ -7,12 +7,6 @@
 ___
 <i style=float:right;>Donnerstag, 20. Sep</i>
 
-![Programmierparadigmen](img/programmierparadigmen.JPG "Programmierparadigmen")
-
-Typisch für imperative Paradigmen:  
-
-* man gibt sequenzielle Anweisungen (imperativ -> befehlen)  
-* es gibt verschiedene kontrollflussstrukturen
 
 ### Kontrollfragen 1
 
