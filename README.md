@@ -7,6 +7,12 @@
 ___
 <i style=float:right;>Donnerstag, 20. Sep</i>
 
+![Programmierparadigmen](img/programmierparadigmen.JPG "Programmierparadigmen")
+
+Typisch für imperative Paradigmen:  
+
+* man gibt sequenzielle Anweisungen (imperativ -> befehlen)  
+* es gibt verschiedene kontrollflussstrukturen
 
 ### Kontrollfragen 1
 
@@ -721,3 +727,295 @@ Optional<String>
 ___
  <i style=float:right;>Freitag, 9. Nov</i>
 
+
+#### Kontrollfragen A
+
+1. Beschreiben Sie in eigenen Worten, zu welchem Zwecke in Java 8 Streams eingeführt wurden.
+    * _"A sequence of elements supporting sequential and parallel aggregate operations."_
+    * um darauf einfacher Lambdas anzuwenden
+    * ermöglichen Aggregate Operations -> also Funktionen elegant auf Datenstrukturen anwenden.
+2. Weisen Sie der Variablen IntStream is einen Stream mit dem Zahlenbereich von 10 bis 100 (inklusive) zu. Wie sieht der entsprechende Code aus? Hinweis: Verwenden Sie dazu die passende IntStream-Factory-Methode range(...).
+    ```java
+    IntStream is = IntStream.range(10,101);
+    ```
+3. Weisen sie der Variablen Stream<String> stringStream unter Verwendung der FactoryMethode Stream<T>.of(T... values) einen Stream mit den Strings "a", "b" und "c" zu.
+    ```java
+    Stream<String> stringStream = Stream.of("a","b","c");
+    ```
+
+#### Kontrollfragen B
+
+1. Wie könnte die Methode IntStream.sum() unter Verwendung von IntStream.reduce(int identity, IntBinaryOperator op) und einer Methoden-Referenz implementiert werden?
+    ```java
+    IntStream is = IntStream.range(10,123);
+    is.reduce(0, Int::sum)
+    ```
+
+2. Geben Sie eine Code-Sequenz an, welche für alle Ganzzahlen von 0 bis 10 die durch 3 teilbaren herausfiltert, zu diesen je 1 dazu zählt und diese Zahlen dann miteinander multipliziert. Das Resultat ist also 280 = 1 \* 4 \* 7 * 10 = (0+1) * (3+1) * (6+1) * (9+1). Hinweis: Verwenden Sie dazu u.a. die Stream-Operationen filter, map und reduce.
+    ```java
+    int sums = IntStream.range(0, 11).filter(i -> i%3==0).map(i -> i+1).reduce(1, (i1, i2) -> i1*i2);
+    ```
+
+#### Kontrollfragen C
+
+1. Worin unterscheiden sich stateless und stateful Operationen? Welche sind performanter?
+    * stateless -> braucht nur info vom objekt, operation hängt nur vom aktuellen objekt ab
+    * statefull -> resultat hängt noch von etwas zusätlichem ab, z.b. andere Elemente
+
+    * stateless sind performanter -> sind nicht abhängig vom zustand
+
+2. Erläutern Sie an einem Beispiel, was Zustand bei stateful-Operations konkret bedeutet.
+    * Operation braucht zusätzlichen Zustand und aktuelles Stream-Element um zu entscheiden was zu tun...
+    * zu beispiel bei sorted muss es andere Elemente kennen damit er sie vergleichen kann
+3. Erläutern Sie je ein konkretes Beispiel (d.h. eine Methode) für eine intermediate- und eine terminalOperation, die "short-circuiting" ist. Unter welchen Umständen kürzen die von ihnen gewählte Methoden die Berechnung ab?
+    * _.limit()_ -> wenn limit erreicht wird geshort circuited
+    * _.anyMatch()_ -> beim ersten true wird terminiert -> stream ist nun aufgebraucht und kann nicht mehr verwendet werden.
+
+4. Wie lässt sich ein gegebener sequentieller Stream s von Strings in einen parallelen Stream p umwandeln?
+     ```java
+    long sampleSize = 1_000000;
+        double sum = DoubleStream.generate(Math::random)
+                                    .skip(7_000_000L)
+                                    .parallel() //hier brudi
+                                    .limit(sampleSize)
+                                    .sum();
+        System.out.println("average = " + (sum / sampleSize));
+    ```
+
+
+    
+## Notes SW 9.1
+
+___
+ <i style=float:right;>Donnerstag, 15. Nov</i>
+
+Kontrollfragen A
+
+1. Nennen Sie möglichst viele in Java 8 eingeführte Aggregat-Operationen auf Streams. Beschreiben Sie dazu in eigenen Worten, wie die einzelnen Operationen funktionieren.
+    * filter -> ein predikat wird auf die lsite angewendet
+    * reduce -> terminal , not-short-circuit, filter elemente über ein prädikat
+    * forEach ->
+    * map
+    * count -> zählt wie viele werte im stream sind
+    * sum -> sum der weter im Stream
+    * limit -> limitiert den stream
+    * getAsInt -> holt den 
+    * anyMatch -> schaut ob ein element meine expression matched (beim ersten gibt er true zurück) bzw boolean
+2. Worin unterscheiden sich intermediate und terminal Stream-Operationen fundamental?
+    * intermediate Stream werden erst ausgewertet wenn eine terminal-Operation ausgeführt wird -> lazy evaluation
+    * terminal Stream Opeartionen verbrauchen den Stream, er kann danach nicht wieder verwendet werden. -> eager evaluation
+3. Zu welchem Zweck wurde in Java 8 die Klasse Optional<T> eingeführt? Geben Sie ein Beispiel für einen sinnvollen Einsatz von dieser Klasse im Kontext von Streams.
+    * verhindert Null-Pointer-Exceptions
+    * A container object which may or may not contain a nonnull value. If a value is present, isPresent() will return true and get() will return the value. Additional methods that depend on the presence or
+    absence of a contained value are provided, such as orElse() (return a default value if value not present) and ifPresent() (execute a block of code if the value is present). This is a value-based class; use of identity-sensitive operations (including reference equality (==), identity hash code, or synchronization) on instances of Optional may have unpredictable results and should be avoided.
+
+#### Natural Order
+
+Die object Klasse implementiert dies oder so, möglich das für prüfung wichtig
+
+Java Comparable interface intuition. By default, a user defined class is not comparable. That is, its objects can't be compared. To make an object comparable, the class must implement the Comparable interface
+
+#### Futures
+Zum Einstieg zwei Fragen an Sie:
+1. Was kann bei der Programmierung von lange andauernden Aufgaben auf dem MainThread problematisch bzw. schwierig sein?
+    * wenn man ein GUI hat blockiert das bei nur 1nem Thread
+2. Wie programmieren Sie in Java nebenläufig, sprich so dass Code (vermeintlich) parallel laufen kann?
+    * threads und runnables
+
+#### Kontrollfragen 2
+
+1. Wie lässt sich aus einer List<String> list mit den Elementen x, X und x mit Hilfe der Methode String.join(...) der String x-|-X-|-x erzeugen?
+    ```java
+    List<String> liste = new LinkedList<>();
+    liste.add("x");liste.add("X");liste.add("x");
+    String desiredString = String.join("-|-", liste);
+    ```
+2. Wie ist in Java „natürliche Ordnung“ zwischen Objekten definiert?
+    * Interface Comparable
+    * Methode compareTo();
+    *rückgavewert: -1,0,1
+
+3. Wie lässt sich in Java 8 einfach ein in umgekehrtnatürlicher Ordnung ordnender Comparator erzeugen?
+    * reverse
+
+4. Erläutern Sie an einem konkreten Beispiel, wie Sie mitels CompletableFuture<T> relativ einfach und elegant Code auf einem Hintergrund-Thread ausführen lassen können.
+    *
+
+#### Kontrollfragen C
+1. Beschreiben Sie die erwähnte Analogie zwischen Garbage Collectors und funktionaler Programmierung in eigenen Worten.
+2. Durch was wird Zustand in imperativen Programmen typischerweise ausgedrückt?
+    * instanzvaraiblem
+3. Worin unterscheiden sich imperative und funktionale Programmierung in Bezug auf den Zustand der verarbeiteten Daten?
+    * nur funktionale programmierung sind daten immutable, man kann sie nicht ändern
+    * daten können und werden geändert
+4. Durch welche Stream-Methoden werden in unserem Beispiel die drei Operationskategorien filter, transform und convert in Java 8 abgebildet?
+    * filter -> reduce
+    * tranfsorm ->  
+    * convert
+
+## Notes SW 9.2
+
+___
+ <i style=float:right;>Freitag, 16. Nov</i>
+
+#### Kontrollfragen A
+
+
+1. Worin unterscheiden sich imperative und deklarative Programmierung fundamental?
+    * imverative -> wie wird ein problem gelöst, mit answeisungen
+    * deklarativ -> was, was ist zu tun, im wesentlichen wird die berechnungslogik geschrieben
+
+2. Erläutern Sie den Unterschied zwischen typischer imperativer und funktionaler Programmierung am Beispiel „Company Process“.
+    * in der cleanNames methode funktional kann ich die liste ganz einfach mit filter/map/reduce (funktionen höherer Ordnung)
+    * imperativ muss ich das selber durchiterieren, ganz üblich for
+3. Funktionale Programmierung erlaubt Modellierung auf höherer Abstraktionsstufe. Um welche tieferen Details müssen sich ProgrammierInnen in Java 8 mit Streams nicht kümmern? Nennen Sie ein konkretes Beispiel.
+    *  parallel
+
+4. Welches sind typische Funktionen höherer Ordnung in Java 8? Warum sind das Funktionen höherer Ordnung?
+    * filter, map, reduce, forEach
+    * sie nehmen funktionen als argumente entgegen
+    * oder sie liefer ein funktion zurück
+
+
+#### Kontrollfragen B
+
+1. Sehen Sie Analogien zwischen den beiden gesehenen Beispielen „Company Process“ und „Zahlenklassifizierung“? Begründen Sie Ihre Antwort.
+    * funktionale -> function higher order
+    * imperativ -> schleifen / if /zustand
+2. Was ist eine „pure function“?
+    * Produzieren keine (beobachtbaren) Seiteneffekte wie Zustandsänderungen, oder Ausgabe
+    * Produzieren für dieselben Argumente immer exakt dasselbe Resultat (sind also unabhängig von Zustand oder I/O)
+    * referenzielle transparenz
+3. Was haben Collections und Streams gemäss Neal Ford mit kinetischer und potentieller Energie zu tun? Erläutern Sie die erwähnte Analogie.
+    * Java Collections verhalten sich wie kinetische Energie: sie lösen Werte sofort auf
+    * Streams verhalten sich mehr wie potentielle Energie, gespeichert für den späteren Verbrauch
+
+
+#### Prüfugnsfrage
+
+Was ist an prolog imperativ?
+die reihenfolge der ziele der prädikate ist relevant
+der cut operator
+
+Was ist an Scheme imperativ
+let* oder begin
+
+
+Folie Seite 41 -> StringPredicate, liefert einen wahrheitswert zurück, nimmt 1 argument an
+
+
+
+
+## Notes SW 10.1
+
+___
+ <i style=float:right;>Donnerstag, 22. Nov</i>
+
+### Kontrollfragen 10.1 A
+
+1. Was versteht man unter Syntax?
+    * Ist der Code syntaktisch korrekt geschrieben (klammern, strichpunkte), aufbau
+    * zeichen, tokens, usw. müssen mit den "gramatik" regeln übereinstimmen
+2. Was versteht man unter Semantik?
+    * typenprüfung, varaiblen korrekt definiert, unreachable code
+    * bedeutung der einzelnen zeichen
+    * Semantik -> Bedeutungslehre
+3. Ein Compiler besitzt ein Frontend und ein Backend.
+    * Was heisst das?
+        Die Kompilierung wird in 2 teile aufgeteilt, in die Analyse und die Synthese
+    * Was sind die Aufgaben des Frontend und des Backend?
+        Frontend -> gibt meldungen, bzw Zwischenrschritte und Zwischenresultate aus
+        Frontend -> Lexikalische Analyse, Syntaxanalyse, 
+        Backend -> code optimierung und code-Erzeugung
+4. Was macht ein Scanner?
+    * Identifikation von Operatoren, Symbolen, Schlüsselwörtern
+    * Zerlegt den Quellcode in seine Bestandteile
+    * Erzeugt Tokens daraus
+    * Kommentare und irrelevantes wird entfernt
+    * Scannt den Code zeile für Zeile
+5. Was macht ein Parser?
+    * Erzeugt aus den Tokens ein Syntaxbaum
+6. Was ist die Aufgabe der Synthesephase?
+    * Zweiter teil der Kompilierung
+    * Aus dem Syntaxbaum wird maschinenunabhängiger Zwischencode erzeugt
+    * Optimiert und erzeugt diesen Code
+    * Ein Interpreter würde bei diesem Zwischencode fertig sein, und dieser könnte nun in einer Virtuelen Maschine (JVM, webengine) laufen.
+7. Welche Art von Compiler nehmen Sie, um Ihre alten PascalProgramme in Java-Programme umzuwandeln?
+    * Transcompiler
+
+
+### Kontrollfragen B (Selbststudium)
+
+1. Experimentieren Sie mit dem Java Programm Adam Riese.
+2. Zeichen Sie einen «Abstrakten Syntaxbaum» mit den Begriffen aus unserer Definition für den arithmetischen Ausdruck: (1+2)*3=
+3. Versuchen Sie mit Hilfe des Debuggers und des «Abstrakten Syntaxbaumes» die Methoden Aufrufe nachzuvollziehen.
+4. Erweitern Sie das Programm mit den Rechenoperationen Subtraktion und Division.
+5. Experimentieren Sie mit dem Scheme Programm Adam Riese und bearbeiten Sie die Punkte 3 (mit Stepper) und 4.
+
+
+
+## Notes SW 10.2
+
+___
+ <i style=float:right;>Freitag, 23. Nov</i>
+
+### Kontrollfragen A
+
+1. Wie lautet die Definition von Sprache?
+    * Sprache ist die
+        * Menge von Sätzen
+        * die sich aus einer definierten Menge von Zeichen
+        * unter Beachtung der Syntaxregeln bilden lassen
+2. Was ist ein terminales Alphabet?
+    * Die Menge der Zeichen, aus denen die Sätze der Sprache gebildet werden
+        ```java
+        //terminales Alphabet zur Bildung gebrochener Dezimalzahlen
+        T = {'0', '1', '2', '3', '4', '5','6', '7', '8', '9', '-', '.' }
+        ```
+3. Was ist ein nichtterminales Alphabet?
+    * Die Menge der Metasymbole, die zur Bildung syntaktischer Regeln benötigt werden.
+        ```java
+        //Metasymbole für Dezimalzahlen
+        N = { ZAHL, GANZZAHL_TEIL, GEBROCHENZAHL_TEIL}
+        //Metasymbole für Deutsche Grammatik
+        N = { SATZ, SUBJEKT, PRÄDIKAT, OBJEKT, ARTIKEL, VERB, SUBSTANTIV }
+        ```
+4. Erklären Sie den Ausdruck G = (T,N,s,P)
+    * Die Grammatik (G) besteht aus:
+        * T: terminales Alphabet
+        * N: nicht terminales Alphabet
+        * s: Startsymbol, Axiom
+        * P: Menge der Produktionen (Regeln)
+5. Zeichen Sie den Syntaxbaum der Grammatik der Folie 11 auf.
+
+6. Bilden Sie einen anderen möglichen Satz aufgrund des Syntaxbaum, als auf den vorhergehenden Folien.
+
+
+#### Kontrollfragen B
+
+1. Woraus besteht eine EBNF Notation?
+    * Sie besteht aus:
+        * einer Startregel,
+        * sonstige Regeln,
+        * terminale und nichtterminale Symbole
+    ```
+    BNF:
+    '=' : Definitionszeichen
+    '|' : Alternative
+    ''' : Kennzeichnungen von Sprachsymbolen
+    'Φ' : Die leere Zeichenfolge
+    '.' : Das Ende einer Regel
+    Zusätzlich im EBNF:
+    '( )' , '[ ]' , '{ }' , '< >' : Klammern
+    ```
+2. Wie sind terminale Symbole in EBNF darzustellen?
+    * In Anführungszeihen
+3. Was muss mit nichtterminale Symbole in EBNF passieren?
+    * Sie müssen in Regeln erklärt werden
+    * Metasymbole müssen durch regeln beschrieben werden.
+4. Wie werden alternative Elemente in EBNF dargestellt?
+    * Alternativen Elemente gruppiert durch das Zeichen: |
+5. Wie werden sich wiederholende Elemente in EBNF dargestellt?
+    * mit geschweiften Klammern __{  }__ oder was auch geht __( )+__
+6. Wie werden optionale Elemente in EBNF dargestellt?
+    * runde Klammer mit Fragezeichen __(  )?__ oder __[  ]__
