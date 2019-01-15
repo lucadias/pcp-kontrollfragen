@@ -582,9 +582,9 @@ ___
     * die Fähigkeit komplexe sachverhalte möglichst klar und einfach auszudrücken.
     * code wird lesbarer
 4. Wenn Sie eine eigene Funktion/Operator für die vordefinierte Funktion filter schreiben, auf welche Randbedingungen müssen Sie achten?
-    * _filter_ wendet _\<function>_ auf jedes Element von _\<list>_ an und filter liefert eine neue Liste von Elementen zurück, auf die _\<function>_ zutrifft.
-    * _\<function>_ darf nur ein Argument besitzen.
-    * _\<function>_ muss einen booleschen Wert zurückliefern.
+    * _filter_ wendet "<function\> auf jedes Element von "<list\> an und filter liefert eine neue Liste von Elementen zurück, auf die <function\> zutrifft.
+    * function>_ darf nur ein Argument besitzen.
+    * function>_ muss einen booleschen Wert zurückliefern.
     ```scheme
     (filter <function> <list>)
     ```
@@ -604,7 +604,7 @@ __Wichtig Lambda teil der Endprüfung__
 
 1. Wann besteht Bedarf lokale Definitionen anzuwenden? 
     * bei akkumulativen Rekursionen sind zum Beispiel Hilffunktionen wertvoll welcher nur in dem Scope definiert sein müssen
-    * alle nameaufgebraucht hat, oder bei vielen funktionen
+    * alle namen aufgebraucht hat, oder bei vielen funktionen
     * namenskonflikte aus dem weg gehen
 2. Wie viele Definitionen sind innerhalb einem lokal-Block möglich?
     * beliebig viele , zu viele locals
@@ -833,7 +833,7 @@ Zum Einstieg zwei Fragen an Sie:
 2. Wie ist in Java „natürliche Ordnung“ zwischen Objekten definiert?
     * Interface Comparable
     * Methode compareTo();
-    *rückgavewert: -1,0,1
+    * rückgabewert: -1,0,1
 
 3. Wie lässt sich in Java 8 einfach ein in umgekehrtnatürlicher Ordnung ordnender Comparator erzeugen?
     * reverse
@@ -1019,3 +1019,60 @@ ___
     * mit geschweiften Klammern __{  }__ oder was auch geht __( )+__
 6. Wie werden optionale Elemente in EBNF dargestellt?
     * runde Klammer mit Fragezeichen __(  )?__ oder __[  ]__
+
+
+
+
+## Notes SW 11.1
+
+___
+ <i style=float:right;>Donnerstag, 29. Nov</i>
+
+#### Kontrollfragen A
+
+
+1. Wo lässt sich ANTLR bei den Compiler-Arten einordnen?
+
+2. Lex/Yacc sind nur LL(1) Parser Generatoren, ANTLR ist ein LL(k) Parser Generator.
+    * Was bedeutet das?  
+    Generiert Lexer und Parser aus LL(*)-Grammatiken
+        * LL: Abarbeitung der Eingabe von links nach rechts; linke Ableitungsregeln werden bevorzugt
+        * LL(k): „Schaut“ k Tokens voraus, um den korrekten Pfad in der Grammatik zu finden
+    * Was hat das für Auswirkungen?
+        er kann nur 1regel anschauen und muss dementsprechend handeln
+        im LL1 muss die gramatik viel primitiver sein bzw. die regeln
+
+
+3. Das Tool TestRig, erzeugt als Ergebnis des Parsens einen abstrakten Syntaxbaumes als Grafik. Welche Phase der Kompilierung wird damit abgeschlossen?
+* analysephase
+
+4. Wieso erkennt ANTLR bei der vorhergehenden Folie die zweite, korrekte Zeile nicht?
+    * 
+
+5. Bei der vorhergehenden Folie erkannte ANTLR die Eingabe «Jim2» als das Token «Jim». Wieso?
+    * er nimmt nur buchstaben
+
+#### Kontrollfragen B
+
+1. Worin unterscheiden sich die Parser- und die Lexer-Regeln?
+    * klein und grosschreibung
+2. Wofür sind die Parser-Regeln zuständig?
+    * sie definieren die syntax des quellprogramms
+    * syntax besteht aus -> die struktur der tokens
+
+3. Wofür sind die Lexer-Regeln zuständig?
+    * die lexikalische analyse
+    * tokens irgendwas zu stehen
+
+4. Mit der Option –tree listet TestRig den Syntaxbaum auf. Wofür könnte man das brauchen?
+    * man könnte ein scheme programm füttern
+
+5. Wenn Sie das «Adam Riese» Beispiel zu einem Arithmetik Rechner ausbauen. Welche ANTLR Möglichkeit(en) nutzen Sie dafür?
+    * Visitors
+
+
+
+## Notes SW 11.2
+
+___
+ <i style=float:right;>Freitag , 30. Nov</i>
